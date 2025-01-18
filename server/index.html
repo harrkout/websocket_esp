@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket GUI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        #messages {
+            margin-top: 20px;
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+        }
+        #messages div {
+            margin-bottom: 10px;
+        }
+        #inputArea {
+            display: flex;
+            margin-top: 20px;
+        }
+        #inputArea input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #inputArea button {
+            padding: 10px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        #inputArea button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>WebSocket GUI</h1>
+        <div id="messages"></div>
+        <div id="inputArea">
+            <input type="text" id="messageInput" placeholder="Type a message...">
+            <button id="sendButton">Send</button>
+        </div>
+    </div>
+    <script>
+        const ws = new WebSocket('ws://localhost:8765');
+        const messagesDiv = document.getElementById('messages');
+        const sendButton = document.getElementById('sendButton');
+        const messageInput = document.getElementById('messageInput');
+
+        ws.onmessage = (event) => {
+            const message = document.createElement('div');
+            message.textContent = event.data;
+            messagesDiv.appendChild(message);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        };
+
+        sendButton.addEventListener('click', () => {
+            const message = messageInput.value;
+            if (message) {
+                ws.send(message);
+                messageInput.value = '';
+            }
+        });
+
+        messageInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                sendButton.click();
+            }
+        });
+    </script>
+</body>
+</html>/html>
