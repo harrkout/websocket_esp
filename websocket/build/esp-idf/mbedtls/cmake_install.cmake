@@ -39,6 +39,6 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/harrkout/bigdata/websocket/build/esp-idf/mbedtls/mbedtls/cmake_install.cmake")
+  include("/home/harrkout/github/websocket_esp/websocket/build/esp-idf/mbedtls/mbedtls/cmake_install.cmake")
 endif()
 

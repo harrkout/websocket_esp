@@ -2,34 +2,34 @@
 	"sources" : 
 	[
 		{
-			"file" : "/home/harrkout/bigdata/websocket/build/CMakeFiles/bootloader"
+			"file" : "/home/harrkout/github/websocket_esp/websocket/build/CMakeFiles/bootloader"
 		},
 		{
-			"file" : "/home/harrkout/bigdata/websocket/build/CMakeFiles/bootloader.rule"
+			"file" : "/home/harrkout/github/websocket_esp/websocket/build/CMakeFiles/bootloader.rule"
 		},
 		{
-			"file" : "/home/harrkout/bigdata/websocket/build/CMakeFiles/bootloader-complete.rule"
+			"file" : "/home/harrkout/github/websocket_esp/websocket/build/CMakeFiles/bootloader-complete.rule"
 		},
 		{
-			"file" : "/home/harrkout/bigdata/websocket/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule"
+			"file" : "/home/harrkout/github/websocket_esp/websocket/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule"
 		},
 		{
-			"file" : "/home/harrkout/bigdata/websocket/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule"
+			"file" : "/home/harrkout/github/websocket_esp/websocket/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule"
 		},
 		{
-			"file" : "/home/harrkout/bigdata/websocket/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule"
+			"file" : "/home/harrkout/github/websocket_esp/websocket/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule"
 		},
 		{
-			"file" : "/home/harrkout/bigdata/websocket/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule"
+			"file" : "/home/harrkout/github/websocket_esp/websocket/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule"
 		},
 		{
-			"file" : "/home/harrkout/bigdata/websocket/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule"
+			"file" : "/home/harrkout/github/websocket_esp/websocket/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule"
 		},
 		{
-			"file" : "/home/harrkout/bigdata/websocket/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule"
+			"file" : "/home/harrkout/github/websocket_esp/websocket/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule"
 		},
 		{
-			"file" : "/home/harrkout/bigdata/websocket/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule"
+			"file" : "/home/harrkout/github/websocket_esp/websocket/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule"
 		}
 	],
 	"target" : 

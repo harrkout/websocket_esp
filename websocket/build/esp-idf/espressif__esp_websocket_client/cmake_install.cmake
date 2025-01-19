@@ -1,4 +1,4 @@
-# Install script for directory: /home/harrkout/bigdata/websocket/managed_components/espressif__esp_websocket_client
+# Install script for directory: /home/harrkout/github/websocket_esp/websocket/managed_components/espressif__esp_websocket_client
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

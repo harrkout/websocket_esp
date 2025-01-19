@@ -39,7 +39,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/harrkout/bigdata/websocket/build/bootloader/esp-idf/cmake_install.cmake")
+  include("/home/harrkout/github/websocket_esp/websocket/build/bootloader/esp-idf/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/harrkout/bigdata/websocket/build/bootloader/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/harrkout/github/websocket_esp/websocket/build/bootloader/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
