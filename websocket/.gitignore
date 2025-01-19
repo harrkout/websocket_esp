@@ -1,0 +1,24 @@
+# Build directories
+/build/
+
+# CMake files
+CMakeLists.txt.user
+*.cmake
+
+# ESP-IDF config files
+sdkconfig
+sdkconfig.ci
+
+# Dependency lock files
+dependencies.lock
+
+# IDE specific files (e.g., VSCode)
+.vscode/
+
+# Generated files
+*.log
+*.out
+*.o
+*.a
+*.so
+
