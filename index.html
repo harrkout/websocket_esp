@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e09, #d0e);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            width: 450px;
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        #inputArea {
+            display: flex;
+            margin-top: 20px;
+        }
+        #inputArea input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        #inputArea input:focus {
+            border-color: #007bff;
+        }
+        #inputArea button {
+            padding: 12px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 8px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #inputArea button:hover {
+            background-color: #0056b3;
+        }
+        #ledControl {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+        }
+        .ledButton {
+            padding: 12px 20px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .ledButton:hover {
+            background-color: #218838;
+        }
+        .ledButton.off {
+            background-color: #dc3545;
+        }
+        .ledButton.off:hover {
+            background-color: #c82333;
+        }
+        #ledStatus {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sensors</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Humidity</th>
+                    <th>Soil Moisture</th>
+                </tr>
+            </thead>
+            <tbody id="messagesBody">
+            </tbody>
+        </table>
+        <div id="inputArea">
+            <input type="text" id="messageInput" placeholder="Type a message...">
+            <button id="sendButton"><i class="fas fa-paper-plane"></i> Send</button>
+        </div>
+        <div id="ledControl">
+            <button class="ledButton" id="turnOnButton"><i class="fas fa-lightbulb"></i> Get Data</button>
+            <button class="ledButton off" id="turnOffButton"><i class="fas fa-power-off"></i> Empty</button>
+        </div>
+        <div id="ledStatus"></div>
+    </div>
+    <script>
+        const ws = new WebSocket('ws://192.168.1.10:8081'); 
+
+        ws.onopen = () => {
+            addMessage("WebSocket connected", "-", "-");
+        };
+
+        ws.onclose = () => {
+            addMessage("WebSocket disconnected", "-", "-");
+            setTimeout(connectWebSocket, 1000);
+        };
+
+        ws.onerror = (error) => {
+            addMessage("WebSocket error: " + error.message, "-", "-");
+        };
+
+        ws.onmessage = async (event) => {
+            let messageContent = event.data instanceof Blob ? await event.data.text() : event.data;
+            console.log("Received message:", messageContent);
+
+            try {
+                const data = JSON.parse(messageContent);
+                addMessage(new Date().toLocaleTimeString(), data.humidity, data.soil_moisture);
+            } catch (error) {
+                addMessage("Invalid data format received", "-", "-");
+            }
+
+            if (messageContent === "LED is ON") {
+                ledStatus.textContent = "LED is ON";
+            } else if (messageContent === "LED is OFF") {
+                ledStatus.textContent = "LED is OFF";
+            }
+        };
+
+        const messagesBody = document.getElementById('messagesBody');
+        const sendButton = document.getElementById('sendButton');
+        const messageInput = document.getElementById('messageInput');
+        const turnOnButton = document.getElementById('turnOnButton');
+        const turnOffButton = document.getElementById('turnOffButton');
+        const ledStatus = document.getElementById('ledStatus');
+
+        sendButton.addEventListener('click', () => {
+            const message = messageInput.value.trim();
+            if (message) {
+                if (ws.readyState === WebSocket.OPEN) {
+                    ws.send(message);
+                    messageInput.value = '';
+                } else {
+                    console.log("WebSocket is not open.");
+                }
+            } else {
+                alert("Please enter a message");
+            }
+        });
+
+        messageInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                sendButton.click();
+            }
+        });
+
+        turnOnButton.addEventListener('click', () => {
+            if (ws.readyState === WebSocket.OPEN) {
+                ws.send('GET_DATA');
+            } else {
+                console.log("WebSocket is not open.");
+            }
+        });
+
+        turnOffButton.addEventListener('click', () => {
+            if (ws.readyState === WebSocket.OPEN) {
+                ws.send('EMPTY');
+            } else {
+                console.log("WebSocket is not open.");
+            }
+        });
+
+        function addMessage(timestamp, humidity, soilMoisture) {
+            const row = messagesBody.insertRow();
+            row.insertCell(0).textContent = timestamp;
+            row.insertCell(1).textContent = humidity;
+            row.insertCell(2).textContent = soilMoisture;
+        }
+
+        function connectWebSocket() {
+            const ws = new WebSocket('ws://192.168.1.10:8081');
+            ws.onopen = () => addMessage("WebSocket connected", "-", "-");
+            ws.onclose = () => {
+                addMessage("WebSocket disconnected", "-", "-");
+                setTimeout(connectWebSocket, 1000);
+            };
+            ws.onerror = (error) => addMessage("WebSocket error: " + error.message, "-", "-");
+            ws.onmessage = async (event) => {
+                let messageContent = event.data instanceof Blob ? await event.data.text() : event.data;
+                console.log("Received message:", messageContent);
+                try {
+                    const data = JSON.parse(messageContent);
+                    addMessage(new Date().toLocaleTimeString(), data.humidity, data.soil_moisture);
+                } catch (error) {
+                    addMessage("Invalid data format received", "-", "-");
+                }
+            };
+        }
+    </script>
+</body>
+</html>
