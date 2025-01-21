@@ -1,10 +1,12 @@
 const WebSocket = require('ws');
 
+
 const server = new WebSocket.Server({ host: '0.0.0.0', port: 8081 });
 
 let clients = [];
 let lastDataRequestTime = 0;
 const dataRequestInterval = 5000;
+
 
 server.on('connection', ws => {
     console.log('New client connected');
